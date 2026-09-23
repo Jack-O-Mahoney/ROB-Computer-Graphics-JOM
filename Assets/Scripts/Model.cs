@@ -26,11 +26,39 @@ public class Model
 
         //Back Faces
         faces.Add(new Vector3Int(12, 13, 14)); //0
-       faces.Add(new Vector3Int(13, 17, 14)); //1
-       // faces.Add(new Vector3Int(8, 5, 3)); //2
-        //faces.Add(new Vector3Int(8, 3, 2)); //3
-        //faces.Add(new Vector3Int(4, 2, 1)); //4
-        //faces.Add(new Vector3Int(4, 1, 0)); //5
+        faces.Add(new Vector3Int(13, 17, 14)); //1
+        faces.Add(new Vector3Int(15, 18, 20)); //2
+        faces.Add(new Vector3Int(15, 20, 21)); //3
+        faces.Add(new Vector3Int(19, 21, 23));  //4
+        faces.Add(new Vector3Int(23, 21, 22));  //5
+
+        //Top Faces
+        faces.Add(new Vector3Int(0, 1, 13)); //0
+        faces.Add(new Vector3Int(0, 13, 12)); //1
+        faces.Add(new Vector3Int(23, 7, 19)); //2
+        faces.Add(new Vector3Int(23, 11, 7)); //3
+
+        //Side Faces
+        faces.Add(new Vector3Int(0, 14, 2)); //0
+        faces.Add(new Vector3Int(0, 12, 14)); //1
+        faces.Add(new Vector3Int(1, 5, 17)); //2
+        faces.Add(new Vector3Int(1, 17, 13)); //3
+        faces.Add(new Vector3Int(15, 7, 3)); //4
+        faces.Add(new Vector3Int(15, 19, 7)); //5
+        faces.Add(new Vector3Int(18, 6, 8)); //6
+        faces.Add(new Vector3Int(18, 8, 20)); //7
+
+        //Bottom Faces
+        faces.Add(new Vector3Int(3, 2, 14)); //0
+        faces.Add(new Vector3Int(3, 14, 15)); //1
+        faces.Add(new Vector3Int(6, 17, 5)); //2
+        faces.Add(new Vector3Int(6, 18, 17)); //3
+        faces.Add(new Vector3Int(10, 11, 23)); //4
+        faces.Add(new Vector3Int(10, 23, 22)); //5
+        faces.Add(new Vector3Int(9, 20, 8)); //6
+        faces.Add(new Vector3Int(9, 21, 20)); //7
+        faces.Add(new Vector3Int(9, 10, 22)); //8
+        faces.Add(new Vector3Int(9, 22, 21)); //9
     }
 
     private void addVertices()
@@ -54,7 +82,7 @@ public class Model
         vertices.Add(new Vector3(1.5f, 2.5f, 1f)); //13
         vertices.Add(new Vector3(-2.5f, 1.5f, 1f)); //14
         vertices.Add(new Vector3(-0.5f, 1.5f, 1f)); //15
-        vertices.Add(new Vector3(1.5f, 1.5f, 1f)); //16
+        vertices.Add(new Vector3(1.5f, 1.5f, -1f)); //16
         vertices.Add(new Vector3(2.5f, 1.5f, 1f)); //17
         vertices.Add(new Vector3(0.5f, 1.5f, 1f)); //18
         vertices.Add(new Vector3(-0.5f, -1.5f, 1f)); //19
