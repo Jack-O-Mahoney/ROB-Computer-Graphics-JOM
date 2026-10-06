@@ -3,49 +3,70 @@ using System.Collections.Generic;
 
 public class Model
 {
-
     List<Vector3> vertices = new List<Vector3>();
     List<Vector3Int> faces = new List<Vector3Int>();
     List<Vector3Int> texture_index_list = new List<Vector3Int>();
-    List<Vector2> text_coords = new List<Vector2>();
+    List<Vector2> text_coordinates = new List<Vector2>();
+    
+
     public Model()
     {
         addVertices();
         addTextureCords();
-        text_coords = converttoUV(1024f);
+        text_coordinates = converttoUV(1024f);
         addFaces();
        
     }
     private void addTextureCords()
     {
-        text_coords.Add(new Vector2(135, 61)); //0
-
+        text_coordinates.Add(new Vector2(135, 61)); //0
+        text_coordinates.Add(new Vector2(251, 61)); //1
+        text_coordinates.Add(new Vector2(449, 65)); //2
+        text_coordinates.Add(new Vector2(569, 65)); //3
+        text_coordinates.Add(new Vector2(97, 109)); //4
+        text_coordinates.Add(new Vector2(174, 109)); //5
+        text_coordinates.Add(new Vector2(212, 109)); //6
+        text_coordinates.Add(new Vector2(289, 109)); //7
+        text_coordinates.Add(new Vector2(409, 110)); //8
+        text_coordinates.Add(new Vector2(489, 110)); //9
+        text_coordinates.Add(new Vector2(529, 110)); //10
+        text_coordinates.Add(new Vector2(608, 110)); //11
+        text_coordinates.Add(new Vector2(97, 250));  //12
+        text_coordinates.Add(new Vector2(174, 250)); //13
+        text_coordinates.Add(new Vector2(212, 251)); //14
+        text_coordinates.Add(new Vector2(289, 244)); //15
+        text_coordinates.Add(new Vector2(529, 244)); //16
+        text_coordinates.Add(new Vector2(608, 244)); //17
+        text_coordinates.Add(new Vector2(135, 298)); //18
+        text_coordinates.Add(new Vector2(174, 298)); //19
+        text_coordinates.Add(new Vector2(529, 289)); //20
+        text_coordinates.Add(new Vector2(569, 289)); //21
 
     }
-    private list<Vector2> converttoUV(float s)
+    private List<Vector2> converttoUV(float s)
     {
         List <Vector2> hold = new List<Vector2> ();
-        foreach (Vector2 v in text_coords)
+        foreach (Vector2 v in text_coordinates)
             hold.Add(new Vector2(v.x / s, 1 - v.y / s));
         return hold;
     }
     private void addFaces()
     {
         //Front Faces                                                              
-        faces.Add(new Vector3Int(0, 2, 5));   texture_index_list.Add(new Vector3Int(0, 4, 7)); // 135,61px //0
+        faces.Add(new Vector3Int(0, 2, 5));   texture_index_list.Add(new Vector3Int(0, 4, 7));  //0
         faces.Add(new Vector3Int(0, 5, 1));   texture_index_list.Add(new Vector3Int(0, 7, 1));  //1
         faces.Add(new Vector3Int(6, 3, 8));   texture_index_list.Add(new Vector3Int(6, 5, 14)); //2
-        faces.Add(new Vector3Int(3, 9, 8)); //3
-        faces.Add(new Vector3Int(7, 11, 9)); //4
-        faces.Add(new Vector3Int(11, 10, 9)); //5
+        faces.Add(new Vector3Int(3, 9, 8));   texture_index_list.Add(new Vector3Int(5, 13, 14));//3
+        faces.Add(new Vector3Int(7, 11, 9));  texture_index_list.Add(new Vector3Int(13, 12, 19));//4
+        faces.Add(new Vector3Int(11, 10, 9)); texture_index_list.Add(new Vector3Int(12, 18, 19));//5
 
         //Back Faces
-        faces.Add(new Vector3Int(12, 13, 14)); //0
-        faces.Add(new Vector3Int(13, 17, 14)); //1
-        faces.Add(new Vector3Int(15, 18, 20)); //2
-        faces.Add(new Vector3Int(15, 20, 21)); //3
-        faces.Add(new Vector3Int(19, 21, 23));  //4
-        faces.Add(new Vector3Int(23, 21, 22));  //5
+        faces.Add(new Vector3Int(12, 13, 14)); texture_index_list.Add(new Vector3Int(2, 8, 11));//0
+        faces.Add(new Vector3Int(13, 17, 14)); texture_index_list.Add(new Vector3Int(2, 11, 3));//1
+        faces.Add(new Vector3Int(15, 18, 20)); texture_index_list.Add(new Vector3Int(10, 9, 16));//2
+        faces.Add(new Vector3Int(15, 20, 21)); texture_index_list.Add(new Vector3Int(9, 15, 16));//3
+        faces.Add(new Vector3Int(19, 21, 23)); texture_index_list.Add(new Vector3Int(16, 20, 17)); //4
+        faces.Add(new Vector3Int(23, 21, 22)); texture_index_list.Add(new Vector3Int(20, 21, 17)); //5
 
         //Top Faces
         faces.Add(new Vector3Int(0, 1, 13)); //0
@@ -106,11 +127,6 @@ public class Model
         vertices.Add(new Vector3(-1.5f, -2.5f, 1f)); //22
         vertices.Add(new Vector3(-2.5f, -1.5f, 1f)); //23
 
-
-
-  
-
-
     }  
 
 
@@ -126,20 +142,20 @@ public class Model
 
         List<Vector3> coords = new List<Vector3>();
         List<int> dummy_indices = new List<int>();
-        /*List<Vector2> text_coords = new List<Vector2>();
-        List<Vector3> normalz = new List<Vector3>();*/
-//fghfg
+       List<Vector2> text_coords = new List<Vector2>();
+        List<Vector3> normalz = new List<Vector3>();
+
         for (int i = 0; i < faces.Count; i++)
         {
             //Vector3 normal_for_face = normals[i];
 
             //normal_for_face = new Vector3(normal_for_face.x, normal_for_face.y, -normal_for_face.z);
 
-            coords.Add(vertices[faces[i].x]); dummy_indices.Add(i * 3); text_coords.Add(texture_coordinates[texture_index_list[i].x]);// normalz.Add(normal_for_face);
+            coords.Add(vertices[faces[i].x]); dummy_indices.Add(i * 3); text_coords.Add(text_coordinates[texture_index_list[i].x]);// normalz.Add(normal_for_face);
 
-            coords.Add(vertices[faces[i].y]); dummy_indices.Add(i * 3 + 2); text_coords.Add(texture_coordinates[texture_index_list[i].y]);// normalz.Add(normal_for_face);
+            coords.Add(vertices[faces[i].y]); dummy_indices.Add(i * 3 + 2); text_coords.Add(text_coordinates[texture_index_list[i].y]);// normalz.Add(normal_for_face);
 
-            coords.Add(vertices[faces[i].z]); dummy_indices.Add(i * 3 + 1); text_coords.Add(texture_coordinates[texture_index_list[i].z]); //normalz.Add(normal_for_face);
+            coords.Add(vertices[faces[i].z]); dummy_indices.Add(i * 3 + 1); text_coords.Add(text_coordinates[texture_index_list[i].z]); //normalz.Add(normal_for_face);
         }
 
         mesh.vertices = coords.ToArray();
