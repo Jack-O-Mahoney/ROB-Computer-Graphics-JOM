@@ -45,20 +45,6 @@ public class Model
 
         //Top, Bottom & Side TextCords
 
-
-
-
-
-
-
-
-
-        text_coordinates.Add(new Vector2(0, 0)); //21
-        text_coordinates.Add(new Vector2(1024, 0)); //21
-                                                     
-        text_coordinates.Add(new Vector2(0, 1024)); //21
-        text_coordinates.Add(new Vector2(1024, 1024)); //21
-
     }
     private List<Vector2> converttoUV(float s)
     {
