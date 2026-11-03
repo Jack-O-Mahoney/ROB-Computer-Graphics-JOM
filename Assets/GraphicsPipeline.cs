@@ -83,7 +83,9 @@ public class GraphicsPipeline : MonoBehaviour
         List<Vector4> imageAfterView = MatrixTransform(viewMatrix, imageAfterTranslation);
         Display("ImageAfterView", imageAfterView);
 
-        Matrix4x4 projMatrix = new Matrix4x4();
+        public static Matrix4x4 Perspective(float 16, float 19x16, float 100, float 1000);
+
+    Matrix4x4 projMatrix = Matrix4x4.
         projMatrix.SetRow(0, new Vector4(1, 0, 0, 0));
         projMatrix.SetRow(1, new Vector4(0, 1, 0, 0));
         projMatrix.SetRow(2, new Vector4(0, 0, 1, 0));
@@ -94,7 +96,15 @@ public class GraphicsPipeline : MonoBehaviour
         Matrix4x4 EverythingMatrix = projMatrix * viewMatrix * singleMoT;
         Display("SingleMatrixEverything", EverythingMatrix);
 
+
+        List<Vector4> FinalImage = MatrixTransform(projMatrix, imageAfterView);
+        Display("FinalImage", FinalImage);
+
     }
+
+
+
+
 
     private void Display(string name, Matrix4x4 matrix)
     {
