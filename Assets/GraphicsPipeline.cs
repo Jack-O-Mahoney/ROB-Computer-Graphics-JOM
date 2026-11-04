@@ -10,99 +10,92 @@ public class GraphicsPipeline : MonoBehaviour
         Model mymodel = new Model();
         mymodel.CreateUnityGameObject();
 
-        List<Vector4> verts = Homog(mymodel.vertices);
 
+        //Vertices
+        List<Vector4> verts = Homog(mymodel.vertices);
         Display("Verticies", verts);
 
+
         // First Transformation
-
         // Rotation by 38 degrees about (21,-3,-3).normalized
-
         Vector3 axis = (new Vector3(21,-3,-3)).normalized;
 
-        Matrix4x4 rotationMatrix = Matrix4x4.TRS(
-            Vector3.zero,
-            Quaternion.AngleAxis(38, axis),
-            Vector3.one);
 
+        //RotationMatrix
+        Matrix4x4 rotationMatrix = Matrix4x4.TRS(Vector3.zero,Quaternion.AngleAxis(38, axis),Vector3.one);
         Display("RotationMatrix", rotationMatrix);
 
-        List<Vector4> imageAfterRotation = MatrixTransform(rotationMatrix, verts);
 
+        //ImageAfterRotation
+        List<Vector4> imageAfterRotation = MatrixTransform(rotationMatrix, verts);
         Display("ImageAfterRotation", imageAfterRotation);
 
-        // 2nd Transformation Scale be (3,2,3)
-        Matrix4x4 scaleMatrix = Matrix4x4.TRS(
-           Vector3.zero, Quaternion.identity,
-           new Vector3(3, 2, 3));
 
+        // 2nd Transformation Scale be (3,2,3)
+        //ScaleMatrix
+        Matrix4x4 scaleMatrix = Matrix4x4.TRS(Vector3.zero, Quaternion.identity,new Vector3(3, 2, 3));
         Display("ScaleMatrix", scaleMatrix);
 
-        List<Vector4> imageAftertheScale =
-            MatrixTransform(scaleMatrix, imageAfterRotation);
 
+        //ImageAfterScale
+        List<Vector4> imageAftertheScale = MatrixTransform(scaleMatrix, imageAfterRotation);
         Display("imageAftertheScale", imageAftertheScale);
 
 
-        Matrix4x4 translationMatrix = Matrix4x4.TRS(
-            new Vector3(3, 3, -2),
-            Quaternion.identity,
-            Vector3.one);
-
+        //TranslationMatrix
+        Matrix4x4 translationMatrix = Matrix4x4.TRS(new Vector3(3, 3, -2),Quaternion.identity,Vector3.one);
         Display("Translation matrix", translationMatrix);
 
-        List<Vector4> imageAfterTranslation = MatrixTransform(translationMatrix, imageAftertheScale);
 
+        //ImageAfterTranslation
+        List<Vector4> imageAfterTranslation = MatrixTransform(translationMatrix, imageAftertheScale);
         Display("imageAfterTranslation", imageAfterTranslation);
 
 
+        //SingleMatrixofTransformations
         Matrix4x4 singleMoT = translationMatrix * scaleMatrix * rotationMatrix;
-
-        List<Vector4> imageafterSingleMoT = MatrixTransform(singleMoT, verts);
-
         Display("SingleMoT", singleMoT);
 
+
+        //ImageafterTransformations
+        List<Vector4> imageafterSingleMoT = MatrixTransform(singleMoT, verts);
         Display("ImageAfterMoT", imageafterSingleMoT);
 
+
+        //ViewMatrix
         Vector3 eye = new Vector3(23, 0, 47);
         Vector3 target = new Vector3(-3, 3, 3);
         Vector3 up = new Vector3(-2, -3, 21).normalized;
 
-        Vector3 n = (eye -  target).normalized;
-        Vector3 u = Vector3.Cross(up, n).normalized;
-        Vector3 v = Vector3.Cross(n, u);
-
-        Matrix4x4 viewMatrix = new Matrix4x4();
-        viewMatrix.SetRow(0, new Vector4(u.x, u.y, u.z, -Vector3.Dot(u, eye)));
-        viewMatrix.SetRow(1, new Vector4(v.x, v.y, v.z, -Vector3.Dot(v, eye)));
-        viewMatrix.SetRow(2, new Vector4(n.x, n.y, n.z, -Vector3.Dot(n, eye)));
-        viewMatrix.SetRow(3, new Vector4(0, 0, 0, 1));
-
+        Matrix4x4 cameraTransform = Matrix4x4.LookAt(eye, target, up);
+        Matrix4x4 viewMatrix = cameraTransform.inverse;
         Display("ViewMatrix", viewMatrix);
 
         List<Vector4> imageAfterView = MatrixTransform(viewMatrix, imageAfterTranslation);
         Display("ImageAfterView", imageAfterView);
 
-        public static Matrix4x4 Perspective(float 16, float 19x16, float 100, float 1000);
 
-    Matrix4x4 projMatrix = Matrix4x4.
-        projMatrix.SetRow(0, new Vector4(1, 0, 0, 0));
-        projMatrix.SetRow(1, new Vector4(0, 1, 0, 0));
-        projMatrix.SetRow(2, new Vector4(0, 0, 1, 0));
-        projMatrix.SetRow(3, new Vector4(0, 0, -1, 0));
-
+        //ProjectionMatrix
+        Matrix4x4 projMatrix = Matrix4x4.Perspective(60f, 16f / 9f, 0.3f, 1000f);
         Display("ProjectionMatrix", projMatrix);
 
+
+        //EverythingMatrix
         Matrix4x4 EverythingMatrix = projMatrix * viewMatrix * singleMoT;
         Display("SingleMatrixEverything", EverythingMatrix);
 
 
+        //FinalImage
         List<Vector4> FinalImage = MatrixTransform(projMatrix, imageAfterView);
         Display("FinalImage", FinalImage);
 
+
+        //FinalImage2
+        List<Vector4> FinalImage2 = MatrixTransform(EverythingMatrix, verts);
+        Display("FinalImage2", FinalImage2);
+
+
     }
-
-
 
 
 
