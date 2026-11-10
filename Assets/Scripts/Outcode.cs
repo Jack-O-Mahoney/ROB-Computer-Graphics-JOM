@@ -6,7 +6,6 @@ public class Outcode
 
     public Outcode(Vector2 v) 
     {
-        Debug.Log (v);
         up = v.y > 1;
         down = v.y < -1;
         left = v.x < -1;
@@ -51,7 +50,7 @@ public class Outcode
 
     public static bool operator == (Outcode a, Outcode b)
     {
-        return(a.up == b.up) && (a.down == b.down) && (a.left == b.left) && (a.right == a.left);
+        return(a.up == b.up) && (a.down == b.down) && (a.left == b.left) && (a.right == b.right);
     }
 
     public static bool operator != (Outcode a, Outcode b)
