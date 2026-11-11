@@ -95,6 +95,29 @@ public class GraphicsPipeline : MonoBehaviour
         Display("FinalImage2", FinalImage2);
 
 
+        Vector4[] pts = new Vector4[]
+        {
+            new Vector4(-4.65f, -7.57f, -53.62f, -52.99f), new Vector4(-3.12f, -20.15f, -48.60f, -47.97f),
+            new Vector4(-3.43f, -4.24f, -56.85f, -56.22f), new Vector4(-2.41f, -12.63f, -53.51f, -52.88f),
+            new Vector4(-1.39f, -21.02f, -50.16f, -49.53f), new Vector4(-0.88f, -25.22f, -48.49f, -47.86f),
+            new Vector4(-1.90f, -16.83f, -51.84f, -51.21f), new Vector4(2.80f, -15.25f, -58.19f, -57.56f),
+            new Vector4(3.31f, -19.44f, -56.52f, -55.89f), new Vector4(4.53f, -16.12f, -59.76f, -59.12f),
+            new Vector4(4.02f, -11.93f, -61.43f, -60.79f), new Vector4(1.78f, -6.86f, -61.54f, -60.90f),
+            new Vector4(-3.03f, -1.82f, -49.74f, -49.11f), new Vector4(-1.50f, -14.40f, -44.73f, -44.10f),
+            new Vector4(-1.80f, 1.51f, -52.98f, -52.35f), new Vector4(-1.80f, 1.51f, -52.98f, -52.35f),
+            new Vector4(-1.39f, -21.02f, -50.16f, -49.53f), new Vector4(0.75f, -19.47f, -44.61f, -43.99f),
+            new Vector4(-0.27f, -11.08f, -47.96f, -47.33f), new Vector4(4.42f, -9.50f, -54.32f, -53.69f),
+            new Vector4(4.93f, -13.69f, -52.65f, -52.01f), new Vector4(6.16f, -10.37f, -55.88f, -55.25f),
+            new Vector4(5.65f, -6.18f, -57.55f, -56.92f), new Vector4(3.40f, -1.11f, -57.66f, -57.03f)
+        };
+
+        foreach (Vector4 p in pts)
+        {
+            float xp = p.x / -p.z;   // x divided by z (minus sign because the plane is z = -1)
+            float yp = p.y / -p.z;   // y divided by z
+            print($"{xp:F4}, {yp:F4}");
+        }
+
     }
 
 
@@ -122,6 +145,46 @@ public class GraphicsPipeline : MonoBehaviour
 
         return result;
     }
+
+
+
+    bool LineClip(ref Vector2 S, ref Vector2 E)
+    {
+        Outcode StartO = new Outcode(S);
+        Outcode EndE = new Outcode(E);
+        Outcode Inviewport = new Outcode();
+
+        if ((StartO + EndE) == Inviewport)
+            return true;
+
+        if ((StartO * EndE) != Inviewport)
+            return false;
+        
+        float x0 = S.x, y0 = S.y, x1 = E.x, y1 = E.y;
+        bool vertical = (x0 == x1);
+        bool horizontal = (y0 == y1);
+        float m = vertical ? 0 : (y1 - y0) / (x1 - x0);
+
+        Vector2 left = new Vector2(-1, horizontal ? y0 : y0 + m * (-1 - x0));
+        Vector2 right = new Vector2(1, horizontal ? y0 : y0 + m * (1 - x0));
+        Vector2 top = new Vector2(vertical ? x0 : x0 + (1 / m) * (1 - y0), 1);
+        Vector2 bottom = new Vector2(vertical ? x0 : x0 + (1 / m) * (-1 - y0), -1);
+
+        if (StartO.up) S = top;
+        else if (StartO.down) S = bottom;
+        else if (StartO.left) S = left;
+        else if (StartO.right) S = right;
+
+        if (EndE.up) E = top;
+        else if (EndE.down) E = bottom;
+        else if (EndE.left) E = left;
+        else if (EndE.right) E = right;
+
+        return true;
+    }
+
+
+
 
     private List<Vector4> MatrixTransform(Matrix4x4 matrix, List<Vector4> verts)
     {
